@@ -1,0 +1,145 @@
+Instructor
+
+CREATE TABLE INSTRUCTOR
+	( 
+		InstructorId CHAR(6) NOT NULL,
+		FName VARCHAR(15) NOT NULL,
+		LName VARCHAR(15) NOT NULL,
+		StartDate DATE,
+		Degree VARCHAR(8),
+		Rank VARCHAR(25),
+		Type VARCHAR(8) NOT NULL,
+		PRIMARY KEY (InstructorId)
+	)
+
+CREATE TABLE PHDSTUDENT
+	(
+		StudentId CHAR(6) NOT NULL,
+		FName VARCHAR(15) NOT NULL,
+		LName VARCHAR(15) NOT NULL,
+		StSem VARCHAR(7),
+		StYear SMALLINT,
+		Supervisor CHAR(6),
+		PRIMARY KEY (StudentId)
+		FOREIGN KEY (Supervisor) REFERENCES Instructor (InstructorId)
+	)
+
+CREATE TABLE TT
+	(
+		InstructorId CHAR(6),
+		NoOfPhDStudents tinyint,
+		PRIMARY KEY (InstructorId),
+		FOREIGN KEY (InstructorId) REFERENCES Instructor (InstructorId)
+	)
+
+CREATE TABLE COURSE
+	(
+		CourseId CHAR(7) NOT NULL,
+		CName VARCHAR(35),
+		PRIMARY KEY (CourseId)		
+	)
+
+CREATE TABLE SECTION
+	(
+		SectionId CHAR(11) NOT NULL,
+        	CourseId CHAR(7),
+        	PRIMARY KEY (SectionId),
+        	FOREIGN KEY (CourseId) REFERENCES course (CourseId)
+	)
+
+
+CREATE TABLE GTA
+	(
+   		SectionId CHAR(11),
+		MonthlyPay DECIMAL(10,2),
+    		StudentId CHAR(6),
+		PRIMARY KEY (StudentId),
+    		FOREIGN KEY (SectionId) REFERENCES Section (SectionId),
+		FOREIGN KEY (StudentId) REFERENCES phdstudent (StudentId)
+	)
+
+CREATE TABLE GRA
+	(
+		StudentId CHAR(6),
+		Funding CHAR(4),
+      		MonthlyPay DECIMAL(10,2),
+		PRIMARY KEY (StudentId),
+        	FOREIGN KEY (StudentId) REFERENCES phdstudent (StudentId)
+	)
+
+CREATE TABLE SELFSUPPORT
+	(
+    		StudentId CHAR(6),
+		PRIMARY KEY (StudentId),
+        	FOREIGN KEY (StudentId) REFERENCES phdstudent (StudentId)
+   	)
+
+CREATE TABLE COURSESTAUGHT
+	(
+    		CourseId CHAR(7),
+       		InstructorId CHAR(6),
+        	PRIMARY KEY (CourseId, InstructorId),
+        	FOREIGN KEY (CourseId) REFERENCES course (CourseId),
+        	FOREIGN KEY (InstructorId) REFERENCES instructor(InstructorId)
+    	)
+
+CREATE TABLE SCHOLARSHIPSUPPORT
+	(
+       		StudentId CHAR(6),
+       		Type VARCHAR(15),
+        	Source VARCHAR(15),
+        	PRIMARY KEY (StudentId),
+		FOREIGN KEY (StudentId) REFERENCES phdstudent (StudentId) 
+    	)
+
+CREATE TABLE MILESTONE
+	(
+    		MId CHAR(2) NOT NULL,
+        	MName VARCHAR(35),
+        	PRIMARY KEY (MId)
+    	)
+
+CREATE TABLE MILESTONESPASSED
+	(
+    		StudentId CHAR(6),
+		MId CHAR(2),
+       		PassDate DATE,
+        	PRIMARY KEY (StudentId, MId),
+		FOREIGN KEY (StudentId) REFERENCES phdstudent(StudentId),
+        	FOREIGN KEY (MId) REFERENCES milestone(MId)
+    )
+
+CREATE TABLES GRANTS
+	(
+    		AccountNo CHAR(4) NO NULL,
+       		Type VARCHAR(15),
+        	GrantTitle VARCHAR(50),
+        	Sourc	VARCHAR(50),
+        	StDate	DATE,
+        	EndDate	DATE,
+        	StAmount DECIMAL(10,2),
+       		CurrBalance DECIMAL(10,2),
+   	     	PRIMARY KEY (AccountNo),
+   		UNIQUE KEY (GrantTitle)
+    )
+
+CREATE TABLE GRANTASSOCIATED
+	(
+		AccountNo CHAR(4),
+        	InstructorId CHAR(6),
+        	InstrType VARCHAR(4),
+        	PRIMARY KEY(AccountNo, InstructorId),
+        	FOREIGN KEY (AccountNo) REFERENCES stu_grant(AccountNo),
+        	FOREIGN KEY (InstructorId) REFERENCES Instructor(InstructorId)
+	)
+
+CREATE TABLE PHDCOMMITTEE
+	(
+    	StudentId CHAR(6),
+        InstructorId CHAR(6),
+        PRIMARY KEY (StudentId, InstructorId),
+		FOREIGN KEY (StudentId) REFERENCES phdstudent(StudentId),
+        FOREIGN KEY (InstructorId) REFERENCEs instructor(InstructorId)
+    )
+
+INSERT INTO `gra` VALUES ('CC6716', 'DOE1', '1000');

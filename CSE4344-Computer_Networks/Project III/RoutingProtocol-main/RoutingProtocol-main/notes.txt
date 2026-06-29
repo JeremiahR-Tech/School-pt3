@@ -1,0 +1,29 @@
+What IP address do I listen to here?
+127.0.0.1?
+
+
+What does it mean to beconvergent?
+Am i supposed to be transmitting the router config file to every router. 
+
+Say that I start from A , does it mean I send the config file to my neighbors B , C and them to their neightbor
+What does it mean to for B and C to recvie the IP table?
+
+
+What protocols do I use for that?
+
+
+When i conect from 127.0.0.1 to otherservers? Do I have to initialize the othetr servers or are they just listening
+
+I need to start the routers from the computer using different CLI windoes
+
+
+
+
+
+You send the routing table to all the routers. 
+You use distance vector protocol for that. 
+You update the routing table , because there might be cheaper ways to get there. Djikstras algorithm .
+
+How do I store the routing algorithm? 
+
+Do I nned to open all the servers at once?
